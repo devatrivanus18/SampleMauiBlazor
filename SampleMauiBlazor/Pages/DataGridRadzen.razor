@@ -1,0 +1,39 @@
+﻿@page "/datagridradzen"
+@using SampleMauiBlazor.Data
+@using SampleMauiBlazor.ViewModels
+@inject NorthwindService service
+@inject IJSRuntime js
+@inject WeatherForecastService ForecastService
+<h3>DataGridRadzen</h3>
+
+
+<RadzenDataGrid @ref="grid" AllowFiltering="true" RowSelect="selecteditem" AllowColumnResize="true"
+                FilterMode="FilterMode.Advanced" PageSize="5" AllowPaging="true" AllowSorting="true" Data="@forecasts" TItem="WeatherForecast" 
+        FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+        LogicalFilterOperator="LogicalFilterOperator.Or">
+        <Columns>
+        <RadzenDataGridColumn TItem="WeatherForecast" Property="Date" Title="Date" />
+        <RadzenDataGridColumn TItem="WeatherForecast" Property="TemperatureC" Title="Last Name"  />
+        <RadzenDataGridColumn TItem="WeatherForecast" Property="TemperatureF" Title="Birth Date"  />
+        <RadzenDataGridColumn TItem="WeatherForecast" Property="Summary" Title="Country" />
+        </Columns>
+    </RadzenDataGrid>
+
+@code {
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+    RadzenDataGrid<WeatherForecast> grid;
+    WeatherForecast weather;
+    private WeatherForecast[] forecasts;
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+    }
+
+    void selecteditem()
+    {
+
+    }
+   
+}

@@ -1,0 +1,57 @@
+﻿@page "/datagriddx"
+@using DevExpress.Blazor
+@using SampleMauiBlazor.Data
+@inject WeatherForecastService ForecastService
+
+<h1>DevExpress</h1>
+
+<DxButton Text="Column Chooser" RenderStyle="ButtonRenderStyle.Secondary"
+           CssClass="colum-chooser-button" Click="OnKolomDipilih" />
+<p />
+<DxGrid Data="@forecasts" ShowFilterRow="true" @ref="Grid" ColumnResizeMode="GridColumnResizeMode.NextColumn">
+	<Columns>
+        <DxGridCommandColumn Visible="false" Caption="Command Column"/>
+        <DxDataGridSelectionColumn Visible="false"/>
+        <DxGridDataColumn FieldName="Date" VisibleIndex="0" />
+        <DxGridDataColumn FieldName="TemperatureF"
+                          Caption="Temperature (F)"
+                           />
+        <DxGridDataColumn FieldName="TemperatureC"
+                          Caption="Temperature (C)" 
+                          />
+        <DxGridDataColumn FieldName="Summary"/>
+    </Columns>  
+</DxGrid>
+
+
+@code{
+    DxGrid Grid { get; set; }
+    private WeatherForecast[] forecasts;
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+
+        }
+        catch (Exception ex) 
+        {
+
+            var x = ex.Message;
+        }
+    }
+
+    void OnKolomDipilih()
+    {
+        try
+        {
+            Grid.ShowColumnChooser(".column-chooser-button");
+
+        }
+        catch (Exception ex)
+        {
+
+            var x = ex.Message;
+        }
+    }
+}

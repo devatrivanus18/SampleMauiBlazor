@@ -1,0 +1,42 @@
+﻿@using SampleMauiBlazor.Data
+@inject WeatherForecastService ForecastService
+@using DevExpress.Blazor
+
+<div hidden>
+    <div id="myFaktur">
+        <p style="padding-left: 25px">PT. EXPLOITASI PERINDUSTRIAN GAWEREDJO</p>
+        <p style="padding-left: 25px">Jl. Raya Bogangin No. 6</p>
+        <p style="padding-left: 25px">Surabaya</p>
+        <p style="padding-left: 25px">Telp   : 9908878789798u9</p>
+        <p style="padding-left: 25px">Email  : e.p.gaweredjo@gmail.com</p>
+        <p style="padding-left: 25px">HP     : 087.852923028</p>
+        <br />
+        <br />
+        <p style="padding-left: 25px">Kepada Yth :</p>
+        <p style="padding-left: 25px">Attn Ibu Ratna</p>
+        <br />
+        <br />
+        <DxGrid Data="@forecasts">
+            <Columns>
+                <DxGridCommandColumn Visible="false" Caption="Command Column" />
+                <DxDataGridSelectionColumn Visible="false" />
+                <DxGridDataColumn FieldName="Date" VisibleIndex="0" />
+                <DxGridDataColumn FieldName="TemperatureF"
+                                  Caption="Temperature (F)" />
+                <DxGridDataColumn FieldName="TemperatureC"
+                                  Caption="Temperature (C)" />
+                <DxGridDataColumn FieldName="Summary" 
+                                  Caption="Summary" />
+            </Columns>
+        </DxGrid>
+    </div>
+</div>
+@code {
+    DxGrid Grid { get; set; }
+    private WeatherForecast[] forecasts;
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+    }
+ 
+}
